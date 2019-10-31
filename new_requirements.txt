@@ -24,15 +24,8 @@ Keras-Preprocessing==1.1.0
 kiwisolver==1.1.0
 lxml==4.4.1
 mahotas==1.4.8
-Markdown==3.1.1
 matplotlib==3.1.1
-mkl-fft==1.0.14
-mkl-random==1.1.0
-mkl-service==2.3.0
-networkx==2.4
 numpy==1.16.5
-olefile==0.46
-openface==0.2.1
 pandas==0.25.2
 Pillow==6.2.0
 protobuf==3.9.2
@@ -59,4 +52,3 @@ Werkzeug==0.16.0
 win-inet-pton==1.1.0
 wincertstore==0.2
 wrapt==1.11.2
-zeep==3.4.0
