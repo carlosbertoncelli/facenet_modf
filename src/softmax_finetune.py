@@ -143,6 +143,7 @@ def main(args):
         prelogits, _ = network.inference(image_batch, args.keep_probability, 
             phase_train=phase_train_placeholder, bottleneck_layer_size=args.embedding_size, 
             weight_decay=args.weight_decay)
+
         logits = slim.fully_connected(prelogits, len(train_set), activation_fn=None, 
                 weights_initializer=slim.initializers.xavier_initializer(), 
                 weights_regularizer=slim.l2_regularizer(args.weight_decay),
@@ -185,11 +186,12 @@ def main(args):
         """
         #fine_turn ftune_vlist variables
         all_vars = tf.trainable_variables()
-        ftune_vlist = [v for v in all_vars if v.name.startswith('InceptionResnetV1/Block8')]
+        var_to_restore = [v for v in all_vars if not v.name.startswith('Logits')]
+        saver = tf.train.Saver(var_to_restore)
         train_op = facenet.train(total_loss, global_step, args.optimizer,
-        learning_rate, args.moving_average_decay, ftune_vlist, args.log_histograms)
+        learning_rate, args.moving_average_decay, var_to_restore, args.log_histograms)
         #Create a saver
-        saver = tf.train.Saver(ftune_vlist, max_to_keep=3)
+        #saver = tf.train.Saver(ftune_vlist, max_to_keep=3)
 
         # Build the summary operation based on the TF collection of Summaries.
         summary_op = tf.summary.merge_all()
