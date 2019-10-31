@@ -1,0 +1,51 @@
+Todos os scripts executados aqui estão dentro da pasta 'src'
+########################
+
+Para treinamento da rede:
+
+python train_softmax.py --logs_base_dir ./logs/ --data_dir ./dataset/ --batch_size 32 --image_size 160 --optimizer ADAM --learning_rate 0.01  --pretrained_model D:/Acesso_Codigos/facenet-master/src/20180402-114759/model-20180402-114759.ckpt-275 --epoch_size 5 --max_nrof_epochs 1 --validation_set_split_ratio 0.3 --models_base_dir ./saved_model/ --model_def models.inception_resnet_v1 --embedding_size 128
+
+
+
+########################
+
+Para continuar treinamento da rede, adicionar o seguinte parâmetro e valor:
+
+--pretrained_model DIR/model-2019XXXX-XXXXXX.ckpt-1 (o diretório deve conter os arquivos (.data, .index, .meta)) neste exemplo o diretório contém os seguintes arquivos: model-20191030-084212.ckpt-1.data-00000-of-00001, model-20191030-084212.ckpt-1.index, model-20191030-084212.meta, checkpoint
+
+É possível também continuar o treinamento a partir de um arquivo .pb, apontando diretamente para ele. Exemplo:
+
+--pretrained_model DIR/model.pb
+
+Em todos os casos de transfer learning, o pretrained_model precisa ter o mesmo número de classes do data_dir
+
+########################
+
+Para dar freeze no grafo e criar um arquivo .pb
+
+python freeze_graph.py --model_dir DIR --output_file FILENAME(.pb)
+
+O DIR em questão deve conter os arquivos: 
+model-20191030-084212.ckpt-1.data-00000-of-00001, model-20191030-084212.ckpt-1.index, model-20191030-084212.meta, checkpoint
+
+
+########################
+
+
+Para dar freeze no grafo e criar o arquivo .pb e as variáveis (para utilização no TF Serving):
+
+python fromPbToTfServing.py --frozen_model_path ./test.pb --output_model_dir DIR
+
+Nesta etapa é gerado o .pb ( a partir do .pb da etapa anterior) e as variables para utilização no TF Serving.
+
+OBS: INPUT do modelo com nome de "image_batch" e output com nome de "embeddings".
+
+########################
+
+EXEMPLO DE EXECUÇÃO DE CONTAINER DO TF SERVING COM O MODELO GERADO ACIMA
+
+docker run -p 8501:8501 --mount type=bind,source=D:/Acesso_Codigos/facenet-master/src/modelTF/testTfServing/saved_model.pb,target=/models/testTfServing/1/saved_model.pb -e MODEL_NAME=testTfServing -t tensorflow/serving
+
+(testei e funciona, retorna o vetor de características da imagem)
+########################
+

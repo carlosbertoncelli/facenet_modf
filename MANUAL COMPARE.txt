@@ -1,0 +1,15 @@
+O comando abaixo foi executado dentro do diretório 'src'
+
+
+##########################
+
+Parâmetros:
+
+--model: diretório contendo os arquivos de checkpoint(ckpt) e meta ou .pb
+--image_files: imagens a serem comparadas utilizando o modelo
+
+python compare.py --model ./saved_model/20191030-084212/ --image_files D:/dataset/devices/devices7.jpg D:/dataset/devices/devices8.jpg
+
+o retorno do script é uma matriz de confusão que representa a distância euclidiana entre os vetores de características das duas imagens
+
+##########################

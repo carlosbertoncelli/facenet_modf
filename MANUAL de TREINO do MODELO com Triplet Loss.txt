@@ -1,0 +1,31 @@
+O script executado nas instruções se encontra no diretório 'src'
+
+####################
+Script de treinamento com triplet loss:
+
+Parâmetros:
+
+--logs_base_dir: diretório onde serão salvos os logs de treinamento e inferências
+--models_base_dir: diretório onde serão salvos os modelos treinados e seus checkpoints
+--pretrained_model: diretório contendo arquivos .ckpt e .meta ou path de um arquivo .pb
+--data_dir: diretório onde estará o dataset de treinamento
+--max_nrof_epochs: número máximo de épocas
+--batch_size: tamanho do lote de treinamento 
+--images_per_person: imagens por classe/pessoa
+--epoch_size: número de steps por época
+--embedding_size: tamanho do vetor de características. Default=128
+--optimizer: tipo de otimizador aplicado para o modelo.
+--learning_rate: taxa de aprendizado do modelo
+--people_per_batch: número de pessoas/classes por lote
+--alpha: valor em float do limiar de distância entre uma amostra positiva e negativa de determinada classe.
+
+Exemplo de execução do comando com modelo prétreinado do repositório git:
+
+python train_tripletloss.py --logs_base_dir ./logs/ --models_base_dir ./saved_model/ --pretrained_model D:/Acesso_Codigos/facenet-master/20170512-110547/model-20170512-110547.ckpt-250000 --data_dir ./dataset/ --max_nrof_epochs 10 --batch_size 9 --images_per_person 3 --epoch_size 50 --embedding_size 128 --optimizer RMSPROP --learning_rate 0.1
+
+####################
+
+O script de compare entre duas ou mais imagens funciona da mesma forma que o train_softmax.
+A conversão dos arquivos ckpt e meta é feita da mesma forma para ambos os tipos de treinamento. (vide Manual de Treino do Modelo.txt)
+
+####################

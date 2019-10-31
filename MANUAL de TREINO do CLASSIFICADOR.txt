@@ -1,0 +1,27 @@
+Os arquivos python que serão executados nesta etapa estão contidos dentro do diretório 'src'
+
+###############################
+
+Parâmetros:
+
+--mode: 'TRAIN' ou 'CLASSIFY'
+--data_dir: diretório contendo as faces alinhadas
+--model: diretório que contém os arquivos .meta e .ckpt ou .pb
+--use_split_dataset: na presença desse parâmetro o classificador dividirá o data_dir em um conjunto de treino e teste
+--test_data_dir: parâmetro usado para especificar o diretório de testes
+--batch_size: tamanho do batch a ser processado, default 90
+--image_size: tamanho da img, default 160
+--seed NUM: Random seed, default 666
+--min_nrof_images_per_class NUM: apenas considerar classes que possuam pelo menos um número específico de imagens
+--nrof_train_images_per_class NUM: número de images de treino por classe
+--classifier_filename: nome do arquivo PKL que será gerado a partir do treino
+
+
+Exemplo do comando:
+
+python classifier.py --mode TRAIN --data_dir D:/Acesso_Codigos/facenet-master/src/dataset/ --model ./saved_model/20191030-084212/ --use_split_dataset --batch_size 5 --image_size 160 --min_nrof_images_per_class 3 --classifier_filename classifier.pkl
+
+OBS: no caso de utilizar o parâmetro mode como CLASSIFY, ele calcula a acurácia do classificador com base no data_dir/test_dir
+###############################
+
+
