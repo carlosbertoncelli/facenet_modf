@@ -143,14 +143,28 @@ def main(args):
         prelogits, _ = network.inference(image_batch, args.keep_probability, 
             phase_train=phase_train_placeholder, bottleneck_layer_size=args.embedding_size, 
             weight_decay=args.weight_decay)
-
+        print("Prelogits: ", prelogits)
+        print("--------------------------- train set length", len(train_set))
         logits = slim.fully_connected(prelogits, len(train_set), activation_fn=None, 
                 weights_initializer=slim.initializers.xavier_initializer(), 
                 weights_regularizer=slim.l2_regularizer(args.weight_decay),
                 scope='Logits', reuse=False)
 
-        embeddings = tf.nn.l2_normalize(prelogits, 1, 1e-10, name='embeddings')
+        """
+        TEST CHANGE FOR LOGITS
+        """
+        for op in tf.get_default_graph().get_operations():
+            print(str(op.name))
 
+        # logitsoutput = tf.get_default_graph().get_operation_by_name('Logits/BiasAdd')
+        # print("---------------- logits output", logitsoutput)
+
+        logitsoutput = tf.get_default_graph().get_tensor_by_name('Logits/BiasAdd:0')
+
+        print("---------------- logits output", logitsoutput)
+
+        embeddings = tf.nn.l2_normalize(prelogits, 1, 1e-10, name='embeddings')
+        print("---- Embeddings : ", embeddings)
         # Norm for the prelogits
         eps = 1e-4
         prelogits_norm = tf.reduce_mean(tf.norm(tf.abs(prelogits)+eps, ord=args.prelogits_norm_p, axis=1))
@@ -187,9 +201,9 @@ def main(args):
         #fine_turn ftune_vlist variables
         all_vars = tf.trainable_variables()
         var_to_restore = [v for v in all_vars if not v.name.startswith('Logits')]
-        saver = tf.train.Saver(var_to_restore)
         train_op = facenet.train(total_loss, global_step, args.optimizer,
         learning_rate, args.moving_average_decay, var_to_restore, args.log_histograms)
+        saver = tf.train.Saver(var_to_restore)
         #Create a saver
         #saver = tf.train.Saver(ftune_vlist, max_to_keep=3)
 
