@@ -1,0 +1,3 @@
+A execução do script para continuar o treinamento a partir de um modelo com qualquer número de classes
+segue o mesmo padrão do script train_softmax.py com os mesmos parâmetros, porém o script a ser executado
+é o softmax_finetune.py contido no mesmo diretório

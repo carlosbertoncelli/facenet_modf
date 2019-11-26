@@ -108,7 +108,7 @@ def load_and_align_data(image_paths, image_size, margin, gpu_memory_fraction):
         bb[2] = np.minimum(det[2]+margin/2, img_size[1])
         bb[3] = np.minimum(det[3]+margin/2, img_size[0])
         cropped = img[bb[1]:bb[3],bb[0]:bb[2],:]
-        aligned = cv2.resize(cropped,(image_size, image_size),interpolation=cv2.INTER_LINEAR)
+        aligned = cv2.resize(cropped, (image_size, image_size), interpolation=cv2.INTER_LINEAR)
         #aligned = misc.imresize(cropped, (image_size, image_size), interp='bilinear')
         prewhitened = facenet.prewhiten(aligned)
         img_list.append(prewhitened)

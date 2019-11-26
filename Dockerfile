@@ -4,3 +4,4 @@ RUN mkdir /facenet
 COPY . /facenet
 RUN pip install -r /facenet/new_requirements.txt
 WORKDIR /facenet/src
+#ENTRYPOINT ["tail", "-f", "/dev/null"]

@@ -26,6 +26,7 @@ lxml==4.4.1
 mahotas==1.4.8
 matplotlib==3.1.1
 numpy==1.16.5
+opencv-python==4.1.2.30
 pandas==0.25.2
 Pillow==6.2.0
 protobuf==3.9.2
